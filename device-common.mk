@@ -25,8 +25,10 @@ PRODUCT_PACKAGES += \
     audio.r_submix.default \
     audio.usb.default \
     tinymix \
-    android.hardware.audio@2.0-impl \
-    android.hardware.audio.effect@2.0-impl
+    android.hardware.audio@7.0-impl \
+    android.hardware.audio.effect@7.0-impl \
+    android.hardware.audio.effect@2.0-service \
+    android.hardware.audio.service \
     
     # ADB Insecure
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -74,7 +76,8 @@ PRODUCT_HOST_PACKAGES += \
 
 # GPS
 PRODUCT_PACKAGES += \
-    android.hardware.gnss@1.0-impl
+    android.hardware.gnss@1.0-impl \
+    gpsd_shim
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/gps/gps.conf:system/etc/gps.conf \
@@ -86,7 +89,7 @@ PRODUCT_PACKAGES += \
     libfimg \
     android.hardware.graphics.allocator@2.0-impl \
     android.hardware.graphics.allocator@2.0-service \
-    android.hardware.graphics.composer@2.1-service \
+    android.hardware.graphics.composer@2.1-impl \
     android.hardware.graphics.mapper@2.0-impl \
     libhwc2on1adapter
 
@@ -107,7 +110,11 @@ PRODUCT_PACKAGES += \
 
 # Lights
 PRODUCT_PACKAGES += \
-    android.hardware.light@2.0-service.samsung
+    android.hardware.light-service.samsung
+
+# VNDK
+PRODUCT_COPY_FILES += \
+    prebuilts/vndk/v30/arm/arch-arm-armv7-a-neon/shared/vndk-core/android.hardware.light-V1-ndk_platform.so:$(TARGET_COPY_OUT_VENDOR)/lib/android.hardware.light-V1-ndk_platform.so
 
 # Media
 PRODUCT_COPY_FILES += \
@@ -182,6 +189,7 @@ PRODUCT_PACKAGES += \
     libcamera_client_shim \
     libexynoscamera_shim \
     libstagefright_shim \
+    mediaserver.rc \	
     libui_shim \
     libcutils_shim
 

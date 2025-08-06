@@ -17,14 +17,21 @@
 LOCAL_PATH := device/samsung/universal3475-common
 BUILD_TOP := $(shell pwd)
 
-BUILD_BROKEN_DUP_RULES := true
-
 # Include path
 TARGET_SPECIFIC_HEADER_PATH := $(LOCAL_PATH)/include
 
 ifneq ($(TARGET_DEVICE), gvwifi)
 TARGET_SPECIFIC_HEADER_PATH += $(LOCAL_PATH)/ril/include
 endif
+
+BUILD_BROKEN_DUP_RULES := true
+BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
+
+# VNDK VERSION
+BOARD_VNDK_VERSION := current
+
+# Dedupe VNDK libraries with identical core variants.
+TARGET_VNDK_USE_CORE_VARIANT := true
 
 # Firmware
 TARGET_NO_BOOTLOADER := true
@@ -188,6 +195,7 @@ TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/ramdisk/etc/fstab.universal3475
 # SELinux
 BOARD_SEPOLICY_DIRS += device/samsung/universal3475-common/sepolicy 
 BOARD_SEPOLICY_VERS := $(PLATFORM_SDK_VERSION).0
+SELINUX_IGNORE_NEVERALLOWS := true
 
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += $(LOCAL_PATH)
@@ -202,4 +210,5 @@ TARGET_HAS_MEMFD_BACKPORT := true
 TARGET_LD_SHIM_LIBS += \
     /system/bin/mediaserver|/system/lib/libstagefright_shim.so \
     /system/lib/libsec-ril.so|/vendor/lib/libcutils_shim.so \
-    /system/lib/libsec-ril-dsds.so|/vendor/lib/libcutils_shim.so
+    /system/lib/libsec-ril-dsds.so|/vendor/lib/libcutils_shim.so \
+    /vendor/bin/gpsd|/vendor/lib/gpsd_shim.so
